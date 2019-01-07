@@ -9,12 +9,12 @@ The first piece to be install is apt-transport-https (a package that allows usin
 sudo apt-get update && apt-get install -y apt-transport-https
 ```
 
-#####Our next dependency is Docker. Our Kubernetes installation will depend upon this, so install it with:
+##### Our next dependency is Docker. Our Kubernetes installation will depend upon this, so install it with:
 ```bash
 sudo apt install docker.io
 ```
 
-#####Once that completes, start and enable the Docker service with the commands
+##### Once that completes, start and enable the Docker service with the commands
 ```bash
 sudo systemctl start docker
 sudo systemctl enable docker
@@ -26,34 +26,34 @@ First, download and add the key for the Kubernetes install with the following co
 sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add
 ```
 
-#####Next add a repository:
+##### Next add a repository:
 ```bash
 sudo echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' > /etc/apt/sources.list.d/kubernetes.list
 ```
 
-#####Now run:
+##### Now run:
 ```bash
 apt-get update
 apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 ```
 
-#####Disable swap:
+##### Disable swap:
 ```bash
 swapoff -a
 ```
 
-#####Clone the git repo:
+##### Clone the git repo:
 ```bash
 git clone https://github.com/Mirantis/kubeadm-dind-cluster.git
 cd kubeadm-dind-cluster/fixed
 ```
 
-#####Start up a Kubernetescluster requesting 3 worker nodes in the cluster (default is 2):
+##### Start up a Kubernetescluster requesting 3 worker nodes in the cluster (default is 2):
 ```bash
 NUM_NODES=3 ./dind-cluster-v1.13.sh up
 ```
 
-#####It will take a few minutes and produce lot of output:
+##### It will take a few minutes and produce lot of output:
 ```bash
 root@dev-virtual-machine:~/kubeadm-dind-cluster/fixed# NUM_NODES=3 ./dind-cluster-v1.13.sh up
 * Making sure DIND image is up to date
@@ -134,7 +134,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → 
 Your Kubernetes master has initialized successfully!
 ```
 
-#####Notice:
+##### Notice:
 ```bash
 To start using your cluster, you need to run the following as a regular user:
 
@@ -211,7 +211,7 @@ kube-node-3   Ready    <none>   98s     v1.13.0
 * Access dashboard at: http://127.0.0.1:32768/api/v1/namespaces/kube-system/services/kubernetes-dashboard:/proxy
 ```
 
-#####Verify that you can see the master and worker nodes as ordinary containers:
+##### Verify that you can see the master and worker nodes as ordinary containers:
 ```bash
 docker ps
 
@@ -231,12 +231,12 @@ kube-node-2   Ready    <none>   15m   v1.13.0
 kube-node-3   Ready    <none>   15m   v1.13.0
 ```
 
-#####Now in order to access the kubernetes dashboard, run:
+##### Now in order to access the kubernetes dashboard, run:
 ```bash
 kubectl proxy --address=0.0.0.0 --accept-hosts='^\[::1\]$' --disable-filter=true
 Starting to serve on [::]:8001
 ```
-#####and you will be able to access your dashboard from any broweser on the same network at the following URL:
+##### and you will be able to access your dashboard from any broweser on the same network at the following URL:
 ```http request
 http://<YOUR_VM_IP>:8001/api/v1/namespaces/kube-system/services/http:kubernetes-dashboard:/proxy/#!/workload?namespace=default
 ```
